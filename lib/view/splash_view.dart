@@ -20,8 +20,8 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(milliseconds: 1000), (timer) => setState(() {
-      _progressValue += 0.1;
+    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) => setState(() {
+      _progressValue += 0.05;
       if (_progressValue >= 1) {
         timer.cancel();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainView()));

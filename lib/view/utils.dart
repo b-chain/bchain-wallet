@@ -119,7 +119,10 @@ Future<void> showQrCodeDialog(BuildContext context, String title, String content
 
 Future<String> showInputDialog(BuildContext context, {
   String title = "输入内容", String label, String hint, String confirmText = "确定",
-  String content, String cancelText, int minLine, int maxLine, bool obscureText = false, bool pasteButton = true}) async {
+  String content, String cancelText, int minLine, int maxLine, bool obscureText = false, bool pasteButton = true, bool disableEdit = false, bool copyButton = false}) async {
   return await showDialog<String>(
-      context: context, builder: (BuildContext context) => _createDialog(context, title, InputContent(content: content, label: label, hint: hint, confirmText: confirmText, cancelText: cancelText, minLines: minLine, maxLines: maxLine, obscureText: obscureText, pasteButton: pasteButton), width: 360));
+      context: context, builder: (BuildContext context) => _createDialog(context, title, InputContent(content: content, label: label, hint: hint, confirmText: confirmText, cancelText: cancelText, minLines: minLine, maxLines: maxLine, obscureText: obscureText,
+      copyButton: copyButton,
+      disableEdit: disableEdit,
+      pasteButton: pasteButton), width: 360));
 }

@@ -4,6 +4,7 @@ import 'package:bchain_app/repository.dart';
 import 'package:bchain_app/view/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AssetList extends StatefulWidget {
   final String address;
@@ -59,14 +60,14 @@ class _AssetListState extends State<AssetList> implements WebsocketMessageListen
     final address = widget.address;
     final repo = Repository();
     repo.getAddressCreatedContract(address).then((contracts) => repo.getAssets().then((list) {
-      _resetAssetsMap();
-      list.forEach((a) {
-        contracts.remove(a.ConAddr);
-        _addAsset(a);
-      });
-      _assets.insertAll(0, contracts.map((s) => [s, address]));
-      if (mounted) setState(() => _address = address);
-    }));
+          _resetAssetsMap();
+          list.forEach((a) {
+            contracts.remove(a.ConAddr);
+            _addAsset(a);
+          });
+          _assets.insertAll(0, contracts.map((s) => [s, address]));
+          if (mounted) setState(() => _address = address);
+        }));
   }
 
   @override
@@ -105,24 +106,32 @@ class _AssetListState extends State<AssetList> implements WebsocketMessageListen
                   itemBuilder: (context, index) {
                     final item = _assets[index];
                     if (item is Asset) {
-                      return AssetListItem(widget.address, item, isBcToken: item == _bcAsset,);
+                      return AssetListItem(
+                        widget.address,
+                        item,
+                        isBcToken: item == _bcAsset,
+                      );
                     } else {
                       final isCreator = _address == item[1];
+                      final ca = item[0] ?? "";
                       return Row(children: <Widget>[
                         SizedBox(width: 10),
                         Text("资产合约", style: captionStyle),
-                        SizedBox(width: 10),
-                        Expanded(child: Text(item[0] ?? "", style: captionStyle.copyWith(color: Colors.white))),
-                        FlatButton(
-                            child: Text(isCreator ? "创建代币" : "", style: captionStyle.copyWith(color: theme.accentColor)),
-                            onPressed: isCreator
-                                ? () async {
-                                    final result = await showCreateTokenDialog(context, _address, item[0]);
-                                    if (result != null && result.isNotEmpty) {
-                                      showInfoMessageDialog(context, "已发布代币，交易hash $result，正在等待区块确认。");
-                                    }
+                        Expanded(
+                            child: Container(
+                                alignment: Alignment.centerLeft,
+                                child:
+                                    FlatButton(child: Text(ca, style: actionStyle), onPressed: ca.isEmpty ? null : () => Clipboard.setData(ClipboardData(text: ca))))),
+                        isCreator
+                            ? FlatButton(
+                                child: Text("创建代币", style: actionStyle),
+                                onPressed: () async {
+                                  final result = await showCreateTokenDialog(context, _address, item[0]);
+                                  if (result != null && result.isNotEmpty) {
+                                    showInfoMessageDialog(context, "已发布代币，交易hash $result，正在等待区块确认。");
                                   }
-                                : null)
+                                })
+                            : SizedBox()
                       ]);
                     }
                   },
@@ -197,12 +206,14 @@ class _AssetListItemState extends State<AssetListItem> {
               Text("可用余额", style: captionStyle),
               SizedBox(width: 10),
               Text(_balance, style: subStyle),
-              hasBalance ? FlatButton(
-                  child: Text("转账", style: captionStyle.copyWith(color: theme.accentColor)),
-                  onPressed: () async {
-                    final hash = await showCreateTransactionDialog(context, widget.address, _asset.ConAddr, token);
-                    if (hash != null && hash.isNotEmpty) showConfirmDialog(context, "提示", "交易已发送，等待区块确认中\n\n$hash", cancelText: null);
-                  }) : SizedBox(width: 20),
+              hasBalance
+                  ? FlatButton(
+                      child: Text("转账", style: captionStyle.copyWith(color: theme.accentColor)),
+                      onPressed: () async {
+                        final hash = await showCreateTransactionDialog(context, widget.address, _asset.ConAddr, token);
+                        if (hash != null && hash.isNotEmpty) showConfirmDialog(context, "提示", "交易已发送，等待区块确认中\n\n$hash", cancelText: null);
+                      })
+                  : SizedBox(width: 20),
             ])));
   }
 }

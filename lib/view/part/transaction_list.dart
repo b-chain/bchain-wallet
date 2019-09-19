@@ -80,12 +80,13 @@ class TransactionListItem extends StatelessWidget {
     final style = theme.primaryTextTheme.caption;
     final hashStyle = theme.textTheme.body1.copyWith(color: theme.accentColor, fontSize: 12);
     final valueStyle = theme.primaryTextTheme.caption.copyWith(color: theme.accentColor);
+    final hash = transaction.TrHash ?? "";
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         color: index % 2 == 0 ? Colors.white.withAlpha(10) : null,
         child: Row(children: <Widget>[
           Text(_dateFormat.format(DateTime.fromMillisecondsSinceEpoch(transaction.TimeStamp * 1000)), style: style),
-          Expanded(flex: 6, child: Container(alignment: Alignment.centerLeft, child: FlatButton(child: Text(transaction.TrHash ?? "", style: hashStyle), onPressed: () async => await Repository().jumpPage("https://bc.cool/block/${transaction.BlkNumber}"),))),
+          Expanded(flex: 6, child: Container(alignment: Alignment.centerLeft, child: FlatButton(child: Text(hash, style: hashStyle), onPressed: () async => await Repository().jumpPage("https://bc.cool/block/${transaction.BlkNumber}#$hash"),))),
           Expanded(
               flex: 1,
               child: Row(

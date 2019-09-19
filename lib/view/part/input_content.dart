@@ -1,7 +1,5 @@
-import 'package:bchain_app/repository.dart';
 import 'package:bchain_app/view/utils.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,10 +8,13 @@ class InputContent extends StatefulWidget {
   final String confirmText;
   final String cancelText;
   final String label, hint;
-  final bool obscureText, pasteButton;
+  final bool obscureText, pasteButton, copyButton, disableEdit;
   final int minLines, maxLines;
 
-  InputContent({this.content, this.confirmText, this.cancelText, this.label, this.hint, this.obscureText, this.minLines, this.maxLines, this.pasteButton});
+  InputContent({this.content, this.confirmText, this.cancelText, this.label, this.hint, this.obscureText, this.minLines, this.maxLines,
+    this.disableEdit,
+    this.pasteButton,
+    this.copyButton});
 
   @override
   State<StatefulWidget> createState() => _InputContentState();
@@ -43,6 +44,7 @@ class _InputContentState extends State<InputContent> {
     final buttonStyle = theme.primaryTextTheme.body1;
     final labelStyle = theme.primaryTextTheme.subtitle;
     final bodyStyle = theme.textTheme.caption.copyWith(color: Colors.white);
+    final outlineStyle = theme.primaryTextTheme.subhead.copyWith(color: theme.accentColor);
     final confirmText = widget.confirmText;
     final cancelText = widget.cancelText;
     final label = widget.label;
@@ -63,6 +65,7 @@ class _InputContentState extends State<InputContent> {
           obscureText: widget.obscureText,
           minLines: widget.minLines,
           maxLines: widget.maxLines,
+          enabled: widget.disableEdit != true,
           onChanged: (value) => setState(() => _content = value),
           decoration: createInputDecoration(
               hint: widget.hint,
@@ -71,12 +74,16 @@ class _InputContentState extends State<InputContent> {
                       child: Icon(Icons.content_paste, size: 10, color: Colors.white),
                       onTap: () async {
                         final text = await Clipboard.getData("text/plain");
-                        _content = text.text;
+                        setState(() => _content = text.text);
                         _controller.text = _content;
                       })
                   : null),
           style: bodyStyle),
-      SizedBox(height: 20),
+      widget.copyButton == true ?
+      Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          alignment: Alignment.center,
+          child: OutlineButton(color: theme.accentColor, child: Text("复制", style: outlineStyle), onPressed: () => Clipboard.setData(ClipboardData(text: _content)))) : SizedBox(height: 20),
       Row(children: actions, mainAxisSize: MainAxisSize.max)
     ]);
   }

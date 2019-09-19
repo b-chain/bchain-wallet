@@ -55,8 +55,10 @@ class Repository {
   final baseRepositoryUrl = "http://127.0.0.1:8989";
   final _websocketRepositoryUrl = "ws://127.0.0.1:9999";
 
-  // final baseRepositoryUrl = "http://dev.bt.cool:18989";
-  // final _websocketRepositoryUrl = "ws://dev.bt.cool:19999";
+  /*
+  final baseRepositoryUrl = "http://dev.bt.cool:18989";
+  final _websocketRepositoryUrl = "ws://dev.bt.cool:19999";
+   */
 
   final List<WebsocketMessageListener> _messageListeners = [];
   IOWebSocketChannel _webSocketChannel;

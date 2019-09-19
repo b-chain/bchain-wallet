@@ -54,7 +54,7 @@ class _AccountListState extends State<AccountList> {
       }
       changeSelect();
       if (mounted) setState(() { });
-    });
+    }).catchError((e) => _reloadAccounts());
   }
 
   @override
@@ -168,7 +168,7 @@ class _AccountListItemState extends State<AccountListItem> {
                     final password = await showInputDialog(context, title: "导出Keystore", label: "输入账户密码", obscureText: true, pasteButton: false);
                     if (password != null && password.isNotEmpty) {
                       final result = await Repository().exportKeystore(address, password);
-                      await showInputDialog(context, title: "Keystore内容", content: result, pasteButton: false);
+                      await showInputDialog(context, title: "Keystore内容", content: result, pasteButton: false, copyButton: true, disableEdit: true);
                     }
                   })),
               InkWell(
