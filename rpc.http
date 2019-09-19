@@ -1,0 +1,144 @@
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_getAccounts",
+  "id" :  "1",
+  "params": []
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_newAccount",
+  "id" :  "1",
+  "params": ["123"]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_modifyAccount",
+  "id" :  "1",
+  "params": ["0xf3606dd5b16e7d96b6fb4c8975b1e0a948001520", "123", "456"]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_actionCallBalanceOf",
+  "id" :  "1",
+  "params": ["0xb78f12Cb3924607A8BC6a66799e159E3459097e9", "BC", "0xf9b0982f58561b032a4746e1a02c32d7d8aef33e"]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_getTransferRecord",
+  "id" :  "1",
+  "params": ["0x3fff3fca30d0c3a0976a2ab2bc9d7bb2fa8566ca","BC","0xb78f12Cb3924607A8BC6a66799e159E3459097e9"]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_getTransferRecord",
+  "id" :  "1",
+  "params": ["0x0ea8a4ebf0ccf36bd429f87a3330540b00ef9f18"]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_getSiInfo",
+  "id" :  "1",
+  "params": []
+}
+
+###
+
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_getAssets",
+  "id" :  "1",
+  "params": []
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_sendContractCreateTransaction",
+  "id" :  "1",
+  "params": ["0x3fff3fca30d0c3a0976a2ab2bc9d7bb2fa8566ca", "321", 100]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_pendingTransactions",
+  "id" :  "1",
+  "params": ["0x3fff3fca30d0c3a0976a2ab2bc9d7bb2fa8566ca"]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "method": "wallet_export",
+  "id" :  "1",
+  "params": ["0x3fff3fca30d0c3a0976a2ab2bc9d7bb2fa8566ca", "321"]
+}
+
+###
+
+POST http://192.168.2.31:8989/
+Content-Type: application/json
+
+{
+"jsonrpc": "2.0",
+"method": "wallet_getConAddr",
+"id" :  "1",
+"params": ["0x8dbed4d687548055f8c5f2541db6c54b2476bd7e"]
+}
+
+###
