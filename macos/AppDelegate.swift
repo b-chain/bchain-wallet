@@ -81,12 +81,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             guard let versionEntry = archive["version"] else {
                 return
             }
-            
+            var notChange = false
             _ = try! archive.extract(versionEntry) { (data) in
                 let bundleVersion = String(decoding: data, as: UTF8.self)
                 if bundleVersion == oldVersion {
-                    return
+                    notChange = true
                 }
+            }
+            if notChange {
+                return
             }
         }
         
